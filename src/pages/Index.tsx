@@ -26,13 +26,33 @@ interface DrugInteraction {
 
 const medicationDatabase = [
   { name: 'Аспирин', category: 'Антиагрегант', commonDosage: '100 мг', pricePerPack: 120 },
+  { name: 'Клопидогрел', category: 'Антиагрегант', commonDosage: '75 мг', pricePerPack: 450 },
   { name: 'Аторвастатин', category: 'Статин', commonDosage: '20 мг', pricePerPack: 350 },
+  { name: 'Розувастатин', category: 'Статин', commonDosage: '10 мг', pricePerPack: 380 },
+  { name: 'Симвастатин', category: 'Статин', commonDosage: '20 мг', pricePerPack: 280 },
   { name: 'Лизиноприл', category: 'Ингибитор АПФ', commonDosage: '10 мг', pricePerPack: 180 },
+  { name: 'Эналаприл', category: 'Ингибитор АПФ', commonDosage: '10 мг', pricePerPack: 150 },
+  { name: 'Периндоприл', category: 'Ингибитор АПФ', commonDosage: '5 мг', pricePerPack: 320 },
   { name: 'Метформин', category: 'Гипогликемическое', commonDosage: '500 мг', pricePerPack: 220 },
+  { name: 'Глибенкламид', category: 'Гипогликемическое', commonDosage: '5 мг', pricePerPack: 180 },
+  { name: 'Гликлазид', category: 'Гипогликемическое', commonDosage: '30 мг', pricePerPack: 240 },
   { name: 'Амлодипин', category: 'Блокатор кальциевых каналов', commonDosage: '5 мг', pricePerPack: 160 },
+  { name: 'Нифедипин', category: 'Блокатор кальциевых каналов', commonDosage: '10 мг', pricePerPack: 170 },
   { name: 'Метопролол', category: 'Бета-блокатор', commonDosage: '50 мг', pricePerPack: 140 },
+  { name: 'Бисопролол', category: 'Бета-блокатор', commonDosage: '5 мг', pricePerPack: 160 },
+  { name: 'Карведилол', category: 'Бета-блокатор', commonDosage: '12.5 мг', pricePerPack: 200 },
   { name: 'Омепразол', category: 'Ингибитор протонной помпы', commonDosage: '20 мг', pricePerPack: 190 },
+  { name: 'Пантопразол', category: 'Ингибитор протонной помпы', commonDosage: '20 мг', pricePerPack: 210 },
   { name: 'Варфарин', category: 'Антикоагулянт', commonDosage: '5 мг', pricePerPack: 280 },
+  { name: 'Дабигатран', category: 'Антикоагулянт', commonDosage: '110 мг', pricePerPack: 1200 },
+  { name: 'Лозартан', category: 'Блокатор рецепторов ангиотензина', commonDosage: '50 мг', pricePerPack: 220 },
+  { name: 'Валсартан', category: 'Блокатор рецепторов ангиотензина', commonDosage: '80 мг', pricePerPack: 340 },
+  { name: 'Фуросемид', category: 'Диуретик', commonDosage: '40 мг', pricePerPack: 90 },
+  { name: 'Гидрохлоротиазид', category: 'Диуретик', commonDosage: '25 мг', pricePerPack: 110 },
+  { name: 'Индапамид', category: 'Диуретик', commonDosage: '2.5 мг', pricePerPack: 130 },
+  { name: 'Левотироксин', category: 'Гормон щитовидной железы', commonDosage: '100 мкг', pricePerPack: 180 },
+  { name: 'Преднизолон', category: 'Глюкокортикостероид', commonDosage: '5 мг', pricePerPack: 160 },
+  { name: 'Амоксициллин', category: 'Антибиотик', commonDosage: '500 мг', pricePerPack: 250 },
 ];
 
 const drugInteractions: DrugInteraction[] = [
