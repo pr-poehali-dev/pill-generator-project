@@ -293,23 +293,38 @@ const Index = () => {
                             {med.dosage} • {med.quantity} таб.
                           </p>
                         </div>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => removeMedication(med.id)}
-                          className="text-red-600 hover:text-red-700 hover:bg-red-50"
-                        >
-                          <Icon name="Trash2" size={18} />
-                        </Button>
+                        <div className="flex items-center gap-2">
+                          <span className="font-semibold text-gray-900">{med.pricePerPack}₽</span>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => removeMedication(med.id)}
+                            className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                          >
+                            <Icon name="Trash2" size={18} />
+                          </Button>
+                        </div>
                       </div>
                     ))}
+                  </div>
+                  <div className="mb-4 p-4 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg border-2 border-primary/20">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <Icon name="Wallet" size={24} className="text-secondary" />
+                        <span className="text-lg font-semibold text-gray-700">Общая стоимость:</span>
+                      </div>
+                      <span className="text-2xl font-bold text-primary">
+                        {medications.reduce((total, med) => total + med.pricePerPack, 0)}₽
+                      </span>
+                    </div>
                   </div>
                   <Button 
                     className="w-full"
                     size="lg"
                     onClick={() => {
                       const orderNumber = generateOrderNumber();
-                      toast.success(`Заказ оформлен! Номер заказа: ${orderNumber}`, {
+                      const totalPrice = medications.reduce((total, med) => total + med.pricePerPack, 0);
+                      toast.success(`Заказ оформлен! Номер заказа: ${orderNumber}. Сумма: ${totalPrice}₽`, {
                         duration: 6000,
                       });
                     }}
