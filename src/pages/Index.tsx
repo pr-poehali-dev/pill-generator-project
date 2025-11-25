@@ -15,6 +15,7 @@ interface Medication {
   dosage: string;
   quantity: number;
   category: string;
+  pricePerPack: number;
 }
 
 interface DrugInteraction {
@@ -55,6 +56,12 @@ const medicationDatabase = [
   { name: 'Амоксициллин', category: 'Антибиотик', commonDosage: '500 мг', pricePerPack: 250 },
 ];
 
+const promoCodes = {
+  'HEALTH10': { discount: 10, description: 'Скидка 10%' },
+  'FIRST20': { discount: 20, description: 'Скидка 20% на первый заказ' },
+  'SAVE15': { discount: 15, description: 'Скидка 15%' },
+};
+
 const drugInteractions: DrugInteraction[] = [
   {
     drug1: 'Аспирин',
@@ -87,6 +94,8 @@ const Index = () => {
   const [selectedDrug, setSelectedDrug] = useState('');
   const [dosage, setDosage] = useState('');
   const [quantity, setQuantity] = useState('30');
+  const [promoCode, setPromoCode] = useState('');
+  const [appliedPromo, setAppliedPromo] = useState<{discount: number, description: string} | null>(null);
 
   const generateOrderNumber = () => {
     const timestamp = Date.now().toString().slice(-8);
@@ -109,6 +118,7 @@ const Index = () => {
       dosage,
       quantity: parseInt(quantity),
       category: drugInfo.category,
+      pricePerPack: drugInfo.pricePerPack,
     };
 
     setMedications([...medications, newMed]);
@@ -120,6 +130,24 @@ const Index = () => {
   const removeMedication = (id: string) => {
     setMedications(medications.filter(m => m.id !== id));
     toast.info('Препарат удален из состава');
+  };
+
+  const applyPromoCode = () => {
+    const promo = promoCodes[promoCode.toUpperCase() as keyof typeof promoCodes];
+    if (promo) {
+      setAppliedPromo(promo);
+      toast.success(`Промокод применен! ${promo.description}`);
+    } else {
+      toast.error('Неверный промокод');
+    }
+  };
+
+  const calculateTotal = () => {
+    const subtotal = medications.reduce((total, med) => total + med.pricePerPack, 0);
+    if (appliedPromo) {
+      return subtotal - (subtotal * appliedPromo.discount / 100);
+    }
+    return subtotal;
   };
 
   const checkInteractions = () => {
@@ -307,24 +335,80 @@ const Index = () => {
                       </div>
                     ))}
                   </div>
-                  <div className="mb-4 p-4 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg border-2 border-primary/20">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <Icon name="Wallet" size={24} className="text-secondary" />
-                        <span className="text-lg font-semibold text-gray-700">Общая стоимость:</span>
-                      </div>
-                      <span className="text-2xl font-bold text-primary">
-                        {medications.reduce((total, med) => total + med.pricePerPack, 0)}₽
-                      </span>
+                  
+                  <div className="mb-4 space-y-3">
+                    <div className="flex gap-2">
+                      <Input
+                        placeholder="Введите промокод"
+                        value={promoCode}
+                        onChange={(e) => setPromoCode(e.target.value)}
+                        className="flex-1"
+                      />
+                      <Button 
+                        onClick={applyPromoCode}
+                        variant="outline"
+                        disabled={!promoCode || appliedPromo !== null}
+                      >
+                        <Icon name="Tag" size={18} className="mr-2" />
+                        Применить
+                      </Button>
                     </div>
+                    {appliedPromo && (
+                      <Alert className="bg-green-50 border-green-200">
+                        <Icon name="CheckCircle" size={18} className="text-green-600" />
+                        <AlertDescription className="text-green-700">
+                          Промокод применен: {appliedPromo.description}
+                        </AlertDescription>
+                      </Alert>
+                    )}
+                  </div>
+
+                  <div className="mb-4 p-4 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg border-2 border-primary/20">
+                    {appliedPromo ? (
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between text-gray-600">
+                          <span>Сумма:</span>
+                          <span>{medications.reduce((total, med) => total + med.pricePerPack, 0)}₽</span>
+                        </div>
+                        <div className="flex items-center justify-between text-green-600">
+                          <span>Скидка ({appliedPromo.discount}%):</span>
+                          <span>-{Math.round(medications.reduce((total, med) => total + med.pricePerPack, 0) * appliedPromo.discount / 100)}₽</span>
+                        </div>
+                        <div className="flex items-center justify-between border-t pt-2">
+                          <div className="flex items-center gap-2">
+                            <Icon name="Wallet" size={24} className="text-secondary" />
+                            <span className="text-lg font-semibold text-gray-700">К оплате:</span>
+                          </div>
+                          <span className="text-2xl font-bold text-primary">
+                            {Math.round(calculateTotal())}₽
+                          </span>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <Icon name="Wallet" size={24} className="text-secondary" />
+                          <span className="text-lg font-semibold text-gray-700">Общая стоимость:</span>
+                        </div>
+                        <span className="text-2xl font-bold text-primary">
+                          {medications.reduce((total, med) => total + med.pricePerPack, 0)}₽
+                        </span>
+                      </div>
+                    )}
                   </div>
                   <Button 
                     className="w-full"
                     size="lg"
                     onClick={() => {
                       const orderNumber = generateOrderNumber();
-                      const totalPrice = medications.reduce((total, med) => total + med.pricePerPack, 0);
-                      toast.success(`Заказ оформлен! Номер заказа: ${orderNumber}. Сумма: ${totalPrice}₽`, {
+                      const totalPrice = Math.round(calculateTotal());
+                      const savings = appliedPromo 
+                        ? Math.round(medications.reduce((total, med) => total + med.pricePerPack, 0) * appliedPromo.discount / 100)
+                        : 0;
+                      const message = savings 
+                        ? `Заказ оформлен! Номер: ${orderNumber}. К оплате: ${totalPrice}₽ (экономия: ${savings}₽)`
+                        : `Заказ оформлен! Номер: ${orderNumber}. Сумма: ${totalPrice}₽`;
+                      toast.success(message, {
                         duration: 6000,
                       });
                     }}
