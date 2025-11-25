@@ -68,6 +68,12 @@ const Index = () => {
   const [dosage, setDosage] = useState('');
   const [quantity, setQuantity] = useState('30');
 
+  const generateOrderNumber = () => {
+    const timestamp = Date.now().toString().slice(-8);
+    const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+    return `ORD-${timestamp}-${random}`;
+  };
+
   const addMedication = () => {
     if (!selectedDrug || !dosage) {
       toast.error('Выберите препарат и укажите дозировку');
@@ -281,7 +287,12 @@ const Index = () => {
                   <Button 
                     className="w-full"
                     size="lg"
-                    onClick={() => toast.success('Заказ оформлен! Мы свяжемся с вами в ближайшее время')}
+                    onClick={() => {
+                      const orderNumber = generateOrderNumber();
+                      toast.success(`Заказ оформлен! Номер заказа: ${orderNumber}`, {
+                        duration: 6000,
+                      });
+                    }}
                   >
                     <Icon name="ShoppingCart" size={20} className="mr-2" />
                     Оформить заказ
