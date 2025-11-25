@@ -147,14 +147,25 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
       <div className="container mx-auto px-4 py-8 max-w-7xl">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2 flex items-center justify-center gap-3">
-            <Icon name="Pill" size={40} className="text-primary" />
-            Конструктор Полипилюли
-          </h1>
-          <p className="text-gray-600 text-lg">
-            Создайте персонализированную комбинацию препаратов с проверкой совместимости
-          </p>
+        <div className="flex items-center justify-between mb-8">
+          <div className="flex-1"></div>
+          <div className="text-center flex-1">
+            <h1 className="text-4xl font-bold text-gray-900 mb-2 flex items-center justify-center gap-3">
+              <Icon name="Pill" size={40} className="text-primary" />
+              Конструктор Полипилюли
+            </h1>
+            <p className="text-gray-600 text-lg">
+              Создайте персонализированную комбинацию препаратов с проверкой совместимости
+            </p>
+          </div>
+          <div className="flex-1 flex justify-end gap-3">
+            <Button variant="outline" size="icon" className="h-12 w-12">
+              <Icon name="ShoppingCart" size={24} />
+            </Button>
+            <Button variant="outline" size="icon" className="h-12 w-12">
+              <Icon name="Package" size={24} />
+            </Button>
+          </div>
         </div>
 
         <div className="grid md:grid-cols-2 gap-6">
