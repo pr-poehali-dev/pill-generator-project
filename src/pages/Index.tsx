@@ -249,34 +249,44 @@ const Index = () => {
                   <p className="text-sm">Добавьте препараты для создания полипилюли</p>
                 </div>
               ) : (
-                <div className="space-y-3">
-                  {medications.map((med) => (
-                    <div
-                      key={med.id}
-                      className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border hover:border-primary transition-all"
-                    >
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2">
-                          <h4 className="font-semibold text-gray-900">{med.name}</h4>
-                          <Badge variant="outline" className="text-xs">
-                            {med.category}
-                          </Badge>
-                        </div>
-                        <p className="text-sm text-gray-600 mt-1">
-                          {med.dosage} • {med.quantity} таб.
-                        </p>
-                      </div>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => removeMedication(med.id)}
-                        className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                <>
+                  <div className="space-y-3 mb-4">
+                    {medications.map((med) => (
+                      <div
+                        key={med.id}
+                        className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border hover:border-primary transition-all"
                       >
-                        <Icon name="Trash2" size={18} />
-                      </Button>
-                    </div>
-                  ))}
-                </div>
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2">
+                            <h4 className="font-semibold text-gray-900">{med.name}</h4>
+                            <Badge variant="outline" className="text-xs">
+                              {med.category}
+                            </Badge>
+                          </div>
+                          <p className="text-sm text-gray-600 mt-1">
+                            {med.dosage} • {med.quantity} таб.
+                          </p>
+                        </div>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => removeMedication(med.id)}
+                          className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                        >
+                          <Icon name="Trash2" size={18} />
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                  <Button 
+                    className="w-full"
+                    size="lg"
+                    onClick={() => toast.success('Заказ оформлен! Мы свяжемся с вами в ближайшее время')}
+                  >
+                    <Icon name="ShoppingCart" size={20} className="mr-2" />
+                    Оформить заказ
+                  </Button>
+                </>
               )}
             </CardContent>
           </Card>
