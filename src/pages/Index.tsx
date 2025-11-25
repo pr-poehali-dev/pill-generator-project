@@ -25,14 +25,14 @@ interface DrugInteraction {
 }
 
 const medicationDatabase = [
-  { name: 'Аспирин', category: 'Антиагрегант', commonDosage: '100 мг' },
-  { name: 'Аторвастатин', category: 'Статин', commonDosage: '20 мг' },
-  { name: 'Лизиноприл', category: 'Ингибитор АПФ', commonDosage: '10 мг' },
-  { name: 'Метформин', category: 'Гипогликемическое', commonDosage: '500 мг' },
-  { name: 'Амлодипин', category: 'Блокатор кальциевых каналов', commonDosage: '5 мг' },
-  { name: 'Метопролол', category: 'Бета-блокатор', commonDosage: '50 мг' },
-  { name: 'Омепразол', category: 'Ингибитор протонной помпы', commonDosage: '20 мг' },
-  { name: 'Варфарин', category: 'Антикоагулянт', commonDosage: '5 мг' },
+  { name: 'Аспирин', category: 'Антиагрегант', commonDosage: '100 мг', pricePerPack: 120 },
+  { name: 'Аторвастатин', category: 'Статин', commonDosage: '20 мг', pricePerPack: 350 },
+  { name: 'Лизиноприл', category: 'Ингибитор АПФ', commonDosage: '10 мг', pricePerPack: 180 },
+  { name: 'Метформин', category: 'Гипогликемическое', commonDosage: '500 мг', pricePerPack: 220 },
+  { name: 'Амлодипин', category: 'Блокатор кальциевых каналов', commonDosage: '5 мг', pricePerPack: 160 },
+  { name: 'Метопролол', category: 'Бета-блокатор', commonDosage: '50 мг', pricePerPack: 140 },
+  { name: 'Омепразол', category: 'Ингибитор протонной помпы', commonDosage: '20 мг', pricePerPack: 190 },
+  { name: 'Варфарин', category: 'Антикоагулянт', commonDosage: '5 мг', pricePerPack: 280 },
 ];
 
 const drugInteractions: DrugInteraction[] = [
@@ -418,6 +418,9 @@ const Index = () => {
                   </Badge>
                   <p className="text-sm text-gray-600">
                     Обычная доза: {drug.commonDosage}
+                  </p>
+                  <p className="text-sm font-semibold text-blue-600 mt-2">
+                    {drug.pricePerPack} ₽ / упаковка
                   </p>
                 </div>
               ))}
